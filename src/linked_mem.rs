@@ -139,6 +139,7 @@ pub struct Context {
 
 bitflags! {
     /// Current UI state.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     #[repr(C)]
     pub struct UiState: u32 {
         const IS_MAP_OPEN = 0b1;
