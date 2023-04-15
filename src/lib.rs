@@ -9,7 +9,10 @@ use windows::{
     core::PCSTR,
     Win32::{
         Foundation::{CloseHandle, HANDLE, INVALID_HANDLE_VALUE},
-        System::Memory::{CreateFileMappingA, MapViewOfFile, FILE_MAP_READ, PAGE_READWRITE},
+        System::Memory::{
+            CreateFileMappingA, MapViewOfFile, FILE_MAP_READ, MEMORYMAPPEDVIEW_HANDLE,
+            PAGE_READWRITE,
+        },
     },
 };
 
@@ -46,16 +49,16 @@ impl MumbleLink {
             )?
         };
 
-        let ptr = unsafe { MapViewOfFile(handle, FILE_MAP_READ, 0, 0, SIZE) };
-        if ptr.is_null() {
+        let MEMORYMAPPEDVIEW_HANDLE(base_address) =
+            unsafe { MapViewOfFile(handle, FILE_MAP_READ, 0, 0, SIZE) }?;
+
+        let linked_mem = base_address as *const LinkedMem;
+        if linked_mem.is_null() {
             let err = io::Error::last_os_error();
             unsafe { CloseHandle(handle) };
             Err(err.into())
         } else {
-            Ok(Self {
-                handle,
-                linked_mem: ptr as _,
-            })
+            Ok(Self { handle, linked_mem })
         }
     }
 
