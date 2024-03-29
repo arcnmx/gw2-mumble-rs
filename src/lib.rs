@@ -1,8 +1,11 @@
 mod error;
+mod identity;
 mod linked_mem;
 
-pub use error::*;
-pub use linked_mem::*;
+pub mod map_id;
+pub mod map_type;
+
+pub use self::{error::*, identity::*, linked_mem::*};
 
 use std::{env, ffi::CString, io, mem, ptr};
 use windows::{
