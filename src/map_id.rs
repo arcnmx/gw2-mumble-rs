@@ -5,6 +5,9 @@ pub mod raid {
     /// Lion's Arch Aerodrome (Raid lobby).
     pub const AERODROME: u32 = 1155;
 
+    /// Special Forces Training Area (Golem).
+    pub const TRAINING_AREA: u32 = 1154;
+
     /// Spirit Vale (Wing 1).
     pub const SPIRIT_VALE: u32 = 1062;
 
@@ -105,7 +108,7 @@ pub mod strike {
 
     /// Icebrood Saga Strike Missions.
     pub mod ibs {
-        /// Strike Mission: Shiverpeaks Pass.
+        /// Strike Mission: Shiverpeaks Pass (Icebrood Construct).
         pub const SHIVERPEAKS_PASS: u32 = 1332;
 
         /// Strike Mission: Boneskinner.
@@ -120,10 +123,10 @@ pub mod strike {
         /// Strike Mission: Whisper of Jormag.
         pub const WHISPER_OF_JORMAG: u32 = 1359;
 
-        /// Forging Steel.
+        /// Forging Steel (Ancient Forgeman).
         pub const FORGING_STEEL: u32 = 1368;
 
-        /// Strike Mission: Cold War.
+        /// Strike Mission: Cold War (Minister of Morale).
         pub const COLD_WAR: u32 = 1374;
     }
 
@@ -138,7 +141,7 @@ pub mod strike {
         /// Strike Mission: Kaineng Overlook (Minister Li).
         pub const KAINENG_OVERLOOK: u32 = 1451;
 
-        /// Strike Mission: Harvest Temple (Dragonvoid).
+        /// Strike Mission: Harvest Temple (The Dragonvoid).
         pub const HARVEST_TEMPLE: u32 = 1437;
     }
 
