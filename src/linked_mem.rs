@@ -50,8 +50,9 @@ impl LinkedMem {
     pub fn parse_identity(&self) -> serde_json::Result<Identity> {
         use std::{ffi::OsString, os::windows::prelude::*};
 
-        let string = OsString::from_wide(&self.identity);
-        serde_json::from_str(&string.to_string_lossy())
+        let os_string = OsString::from_wide(&self.identity);
+        let string = os_string.to_string_lossy();
+        serde_json::from_str(string.trim_end_matches('\0'))
     }
 }
 
@@ -159,7 +160,20 @@ bitflags! {
 }
 
 /// Mount.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    strum::Display,
+    strum::AsRefStr,
+    num_enum::TryFromPrimitive,
+    num_enum::IntoPrimitive,
+)]
 #[repr(u8)]
 pub enum Mount {
     None = 0,
@@ -225,7 +239,20 @@ pub struct Identity {
 }
 
 /// Character profession.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    strum::Display,
+    strum::AsRefStr,
+    num_enum::TryFromPrimitive,
+    num_enum::IntoPrimitive,
+)]
 #[cfg_attr(
     feature = "serde",
     derive(serde_repr::Serialize_repr, serde_repr::Deserialize_repr)
@@ -245,7 +272,20 @@ pub enum Profession {
 }
 
 /// Character race.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    strum::Display,
+    strum::AsRefStr,
+    num_enum::TryFromPrimitive,
+    num_enum::IntoPrimitive,
+)]
 #[cfg_attr(
     feature = "serde",
     derive(serde_repr::Serialize_repr, serde_repr::Deserialize_repr)
@@ -260,7 +300,20 @@ pub enum Race {
 }
 
 /// User UI scaling.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    strum::Display,
+    strum::AsRefStr,
+    num_enum::TryFromPrimitive,
+    num_enum::IntoPrimitive,
+)]
 #[cfg_attr(
     feature = "serde",
     derive(serde_repr::Serialize_repr, serde_repr::Deserialize_repr)
