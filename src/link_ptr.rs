@@ -10,7 +10,7 @@ impl MumblePtr {
     /// Creates a new access point to the [`LinkedMem`].
     ///
     /// # Safety
-    /// The passed pointer must be properly aligned, dereferenceable, and point to an initialized instance of [`LinkedMem`].
+    /// If the passed pointer is non-null, it must be properly aligned, dereferenceable, and point to an initialized instance of [`LinkedMem`].
     #[inline]
     pub unsafe fn new(ptr: *mut LinkedMem) -> Option<Self> {
         NonNull::new(ptr).map(Self)
