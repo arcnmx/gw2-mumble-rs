@@ -3,9 +3,16 @@
 //! ```no_run
 //! use gw2_mumble::MumbleLink;
 //!
-//! let link = MumbleLink::new().unwrap();
-//! let camera = link.read_camera();
-//! let player_pos = link.read_avatar();
+//! let mumble = MumbleLink::new().unwrap();
+//! let camera = mumble.read_camera();
+//! let player_pos = mumble.read_avatar();
+//! ```
+//!
+//! [Serde](https://serde.rs) support can be enabled with the `"serde"` feature.
+//!
+//! Parsing of the player identity JSON is supported when enabling the `"json"` feature:
+//! ```ignore
+//! let identity = mumble.parse_identity();
 //! ```
 
 mod context;
