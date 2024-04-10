@@ -1,13 +1,26 @@
+//! Guild Wars 2 MumbleLink bindings.
+//!
+//! ```no_run
+//! use gw2_mumble::MumbleLink;
+//!
+//! let link = MumbleLink::new().unwrap();
+//! let camera = link.read_camera();
+//! let player_pos = link.read_avatar();
+//! ```
+
+mod context;
 mod error;
 mod identity;
+mod link_ptr;
 mod linked_mem;
+mod util;
 
 pub mod map_id;
 pub mod map_type;
 
-pub use self::{error::*, identity::*, linked_mem::*};
+pub use self::{context::*, error::*, identity::*, link_ptr::*, linked_mem::*};
 
-use std::{env, ffi::CString, io, mem, ptr};
+use std::{env, ffi::CString, io, mem};
 use windows::{
     core::PCSTR,
     Win32::{
@@ -20,12 +33,8 @@ use windows::{
 #[derive(Debug)]
 pub struct MumbleLink {
     handle: HANDLE,
-    linked_mem: *const LinkedMem,
+    ptr: MumblePtr,
 }
-
-unsafe impl Send for MumbleLink {}
-
-unsafe impl Sync for MumbleLink {}
 
 impl MumbleLink {
     /// Creates a new access point to the MumbleLink.
@@ -45,32 +54,27 @@ impl MumbleLink {
                 PAGE_READWRITE,
                 0,
                 SIZE as u32,
-                PCSTR::from_raw(name.as_ptr() as _),
+                PCSTR::from_raw(name.as_ptr().cast()),
             )?
         };
 
-        let linked_mem =
-            unsafe { MapViewOfFile(handle, FILE_MAP_READ, 0, 0, SIZE) }.Value as *const LinkedMem;
-        if linked_mem.is_null() {
+        let ptr = unsafe { MapViewOfFile(handle, FILE_MAP_READ, 0, 0, SIZE) }.Value;
+        if let Some(ptr) = MumblePtr::new(ptr.cast()) {
+            Ok(Self { handle, ptr })
+        } else {
             let err = io::Error::last_os_error();
             let _ = unsafe { CloseHandle(handle) };
             Err(err.into())
-        } else {
-            Ok(Self { handle, linked_mem })
         }
     }
 
-    /// Returns a pointer to the [`LinkedMem`] of the MumbleLink.
-    pub fn as_ptr(&self) -> *const LinkedMem {
-        self.linked_mem
+    /// Returns the [`MumblePtr`] for the MumbleLink.
+    #[inline]
+    pub fn as_mumble_ptr(&self) -> MumblePtr {
+        self.ptr
     }
 
-    /// Reads the current [`LinkedMem`] contents from the MumbleLink.
-    pub fn read(&self) -> LinkedMem {
-        unsafe { ptr::read_volatile(self.linked_mem) }
-    }
-
-    /// Resolves the name of the MumbleLink memory shared file.
+    /// Resolves the name of the MumbleLink memory mapped file.
     pub fn link_name() -> String {
         env::args()
             .skip_while(|arg| arg != "-mumble")
@@ -80,7 +84,17 @@ impl MumbleLink {
 }
 
 impl Drop for MumbleLink {
+    #[inline]
     fn drop(&mut self) {
         let _ = unsafe { CloseHandle(self.handle) };
+    }
+}
+
+impl std::ops::Deref for MumbleLink {
+    type Target = MumblePtr;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        &self.ptr
     }
 }

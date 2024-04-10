@@ -68,7 +68,6 @@ pub struct Identity {
 )]
 #[repr(u8)]
 pub enum Profession {
-    Unknown = 0,
     Guardian = 1,
     Warrior = 2,
     Engineer = 3,
