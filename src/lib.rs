@@ -66,7 +66,7 @@ impl MumbleLink {
         };
 
         let ptr = unsafe { MapViewOfFile(handle, FILE_MAP_READ, 0, 0, SIZE) }.Value;
-        if let Some(ptr) = MumblePtr::new(ptr.cast()) {
+        if let Some(ptr) = unsafe { MumblePtr::new(ptr.cast()) } {
             Ok(Self { handle, ptr })
         } else {
             let err = io::Error::last_os_error();

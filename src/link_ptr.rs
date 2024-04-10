@@ -8,8 +8,11 @@ pub struct MumblePtr(NonNull<LinkedMem>);
 
 impl MumblePtr {
     /// Creates a new access point to the [`LinkedMem`].
+    ///
+    /// # Safety
+    /// The passed pointer must be properly aligned, dereferenceable, and point to an initialized instance of [`LinkedMem`].
     #[inline]
-    pub fn new(ptr: *mut LinkedMem) -> Option<Self> {
+    pub unsafe fn new(ptr: *mut LinkedMem) -> Option<Self> {
         NonNull::new(ptr).map(Self)
     }
 
