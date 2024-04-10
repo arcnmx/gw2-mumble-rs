@@ -53,7 +53,8 @@ impl LinkedMem {
 
         let os_string = OsString::from_wide(&self.identity);
         let string = os_string.to_string_lossy();
-        serde_json::from_str(string.trim_end_matches('\0'))
+        let end = string.find('\0').unwrap_or(string.len());
+        serde_json::from_str(&string[..end])
     }
 }
 
