@@ -100,6 +100,9 @@ pub mod fractal {
 
     /// Silent Surf Fractal.
     pub const SILENT_SURF: u32 = 1500;
+
+    /// Lonely Tower Fractal.
+    pub const LONELY_TOWER: u32 = 1538;
 }
 
 /// Strike Missions.
