@@ -110,13 +110,13 @@ impl MumblePtr {
         read_member!(self.context.server_address)
     }
 
-    /// Reads the current server address.
+    /// Reads the current map id.
     #[inline]
     pub fn read_map_id(&self) -> u32 {
         read_member!(self.context.map_id)
     }
 
-    /// Reads the current server address.
+    /// Reads the current map type.
     #[inline]
     pub fn read_map_type(&self) -> u32 {
         read_member!(self.context.map_type)
