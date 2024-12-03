@@ -24,3 +24,6 @@ pub const MYTHWRIGHT_GAMBIT: u32 = 1303;
 
 /// The Key of Ahdashim (Wing 7).
 pub const KEY_OF_AHDASHIM: u32 = 1323;
+
+/// Mount Balrior (Wing 8).
+pub const MOUNT_BALRIOR: u32 = 1564;
