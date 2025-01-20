@@ -29,7 +29,7 @@ pub use self::{context::*, error::*, identity::*, link_ptr::*, linked_mem::*};
 
 use std::{env, ffi::CString, io, mem};
 use windows::{
-    core::PCSTR,
+    core::{Free, PCSTR},
     Win32::{
         Foundation::{CloseHandle, HANDLE, INVALID_HANDLE_VALUE},
         System::Memory::{CreateFileMappingA, MapViewOfFile, FILE_MAP_READ, PAGE_READWRITE},
@@ -90,10 +90,14 @@ impl MumbleLink {
     }
 }
 
+unsafe impl Send for MumbleLink {}
+
+unsafe impl Sync for MumbleLink {}
+
 impl Drop for MumbleLink {
     #[inline]
     fn drop(&mut self) {
-        let _ = unsafe { CloseHandle(self.handle) };
+        unsafe { self.handle.free() }
     }
 }
 

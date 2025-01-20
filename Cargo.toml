@@ -1,19 +1,19 @@
 [package]
 name = "gw2_mumble"
-version = "0.2.4"
+version = "0.2.5"
 edition = "2021"
 authors = ["Zerthox"]
 repository = "https://github.com/zerthox/gw2-mumble-rs"
 
 [dependencies]
-bitflags = "2.0.2"
+bitflags = "2.8.0"
 num_enum = "0.7.2"
 serde = { version = "1.0.152", features = ["derive"], optional = true }
 serde_json = { version = "1.0.93", optional = true }
 serde_repr = { version = "0.1.10", optional = true }
 strum = { version = "0.26.2", features = ["derive"] }
 thiserror = "2.0.4"
-windows = { version = "0.58.0", features = [
+windows = { version = "0.59.0", features = [
     "System",
     "Win32_Foundation",
     "Win32_System_Memory",
