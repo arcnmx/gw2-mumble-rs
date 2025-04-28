@@ -28,6 +28,7 @@ pub mod map_type;
 pub use self::{context::*, error::*, identity::*, link_ptr::*, linked_mem::*};
 
 use std::{env, ffi::CString, io, mem};
+#[cfg(windows)]
 use windows::{
     core::{Free, PCSTR},
     Win32::{
@@ -38,11 +39,13 @@ use windows::{
 
 /// Access point to the MumbleLink memory shared file.
 #[derive(Debug)]
+#[cfg(windows)]
 pub struct MumbleLink {
     handle: HANDLE,
     ptr: MumblePtr,
 }
 
+#[cfg(windows)]
 impl MumbleLink {
     /// Creates a new access point to the MumbleLink.
     pub fn new() -> Result<Self, Error> {
@@ -90,10 +93,13 @@ impl MumbleLink {
     }
 }
 
+#[cfg(windows)]
 unsafe impl Send for MumbleLink {}
 
+#[cfg(windows)]
 unsafe impl Sync for MumbleLink {}
 
+#[cfg(windows)]
 impl Drop for MumbleLink {
     #[inline]
     fn drop(&mut self) {
@@ -101,6 +107,7 @@ impl Drop for MumbleLink {
     }
 }
 
+#[cfg(windows)]
 impl std::ops::Deref for MumbleLink {
     type Target = MumblePtr;
 

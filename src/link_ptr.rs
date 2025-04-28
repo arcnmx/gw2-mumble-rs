@@ -1,5 +1,7 @@
 use crate::{util::read_until_nul, Context, LinkedMem, Mount, Position, UiState};
-use std::{ffi::OsString, os::windows::ffi::OsStringExt, ptr::NonNull};
+use std::ptr::NonNull;
+#[cfg(windows)]
+use std::{ffi::OsString, os::windows::ffi::OsStringExt};
 
 /// A pointer to [`LinkedMem`] with utility.
 #[derive(Debug, Clone, Copy)]
@@ -69,6 +71,7 @@ impl MumblePtr {
 
     /// Reads the current game name as [`OsString`].
     #[inline]
+    #[cfg(windows)]
     pub fn read_name_string(&self) -> OsString {
         OsString::from_wide(&self.read_name())
     }
@@ -87,6 +90,7 @@ impl MumblePtr {
 
     /// Reads the current player identity as [`OsString`].
     #[inline]
+    #[cfg(windows)]
     pub fn read_identity_string(&self) -> OsString {
         OsString::from_wide(&self.read_identity())
     }
@@ -244,6 +248,7 @@ impl MumblePtr {
 
     /// Reads the game description as [`OsString`].
     #[inline]
+    #[cfg(windows)]
     pub fn read_description_string(&self) -> OsString {
         OsString::from_wide(&self.read_description())
     }

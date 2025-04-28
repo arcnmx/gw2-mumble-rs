@@ -3,6 +3,7 @@ use thiserror::Error;
 
 /// A possible error occurring during [`MumbleLink`](crate::MumbleLink) creation.
 #[derive(Debug, Error)]
+#[cfg(windows)]
 pub enum Error {
     /// MumbleLink is disabled.
     #[error("mumblelink disabled")]

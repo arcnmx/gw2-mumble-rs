@@ -1,4 +1,5 @@
 use crate::{util::until_nul, Context};
+#[cfg(windows)]
 use std::{ffi::OsString, os::windows::ffi::OsStringExt};
 
 /// MumbleLink shared memory.
@@ -48,18 +49,21 @@ pub struct LinkedMem {
 impl LinkedMem {
     /// Returns the name as [`OsString`].
     #[inline]
+    #[cfg(windows)]
     pub fn name_string(&self) -> OsString {
         OsString::from_wide(until_nul(&self.name))
     }
 
     /// Returns the name as [`OsString`].
     #[inline]
+    #[cfg(windows)]
     pub fn identity_string(&self) -> OsString {
         OsString::from_wide(until_nul(&self.identity))
     }
 
     /// Returns the name as [`OsString`].
     #[inline]
+    #[cfg(windows)]
     pub fn description_string(&self) -> OsString {
         OsString::from_wide(until_nul(&self.description))
     }
